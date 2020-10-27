@@ -1,0 +1,4 @@
+include ':lib_seek_book'
+include ':lib_core'
+include ':app'
+rootProject.name = "ReadBook"
