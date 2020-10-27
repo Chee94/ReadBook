@@ -24,4 +24,8 @@ open abstract class BaseActivity :AppCompatActivity(){
 
     abstract fun init()
 
+    fun getAct():AppCompatActivity{
+        return this
+    }
+
 }

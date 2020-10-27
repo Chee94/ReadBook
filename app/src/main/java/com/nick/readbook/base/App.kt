@@ -1,4 +1,4 @@
-package com.nick.readbook
+package com.nick.readbook.base
 
 import android.app.Application
 import com.nick.lib_core.utils.LogTAG

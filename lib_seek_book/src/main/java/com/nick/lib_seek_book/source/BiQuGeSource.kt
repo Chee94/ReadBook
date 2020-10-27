@@ -1,7 +1,8 @@
 package com.nick.lib_seek_book.source
 
-import com.nick.lib_core.utils.logD
 import com.nick.lib_seek_book.bean.Book
+import com.nick.lib_seek_book.bean.BookDetail
+import com.nick.lib_seek_book.bean.Bookrack
 import org.jsoup.nodes.Element
 import java.net.URLDecoder
 
@@ -11,6 +12,11 @@ import java.net.URLDecoder
  */
 class BiQuGeSource : BaseSource() {
 
+    companion object {
+        val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            BiQuGeSource()
+        }
+    }
 
     override fun getSourceName(): String {
         return "笔趣阁"
@@ -35,24 +41,48 @@ class BiQuGeSource : BaseSource() {
         return "${getSourceUrl()}${bookName}/${bookCapter}.html"
     }
 
-    override fun fetchBookrack(ele: Element): MutableList<Book> {
+    override fun fetchSearchBook(baseSource: BaseSource, ele: Element): MutableList<Book> {
         val bookList = mutableListOf<Book>();
         for (bookEle in ele.select("tr")) {
             val itemList = bookEle.select("td");
-            logD("fetchBookrack:size${itemList.size} _____ $itemList")
             if (itemList.size >= 6) {
                 val book = Book(
+                    baseSource,
                     itemList[0].text(),
                     itemList[2].text(),
                     itemList[1].text(),
                     itemList[4].text(),
                     itemList[5].text(),
-                    getSourceUrl() + itemList[0].attr("href")
+                    "${getSourceUrl()}/${itemList[0].select("a")[0].attr("href")}"
                 );
                 bookList.add(book)
             }
         }
         return bookList
+    }
+
+    override fun fetchBookDetail(book: Book, doc: Element): BookDetail {
+        val bookrackList = mutableListOf<Bookrack>()
+        for (item in doc.select("dd")) {
+            var bookrack = Bookrack(
+                book,
+                item.text(),
+                "${book.bookDetailUrl}/${item.select("a")[0].attr("href")}"
+            )
+            bookrackList.add(bookrack)
+        }
+
+        val bookDetail = BookDetail(
+            book,
+            doc.getElementById("intro").text(),
+            doc.getElementById("fmimg").select("img").attr("src"),
+            bookrackList
+        );
+        return bookDetail
+    }
+
+    override fun fetchContent(doc: Element): String {
+        return doc.getElementById("content").toString()
     }
 
 

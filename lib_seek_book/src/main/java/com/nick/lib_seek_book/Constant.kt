@@ -9,4 +9,4 @@ import com.nick.lib_seek_book.source.BiQuGeSource
  */
 
 //所有书源
-val SourceList = mutableListOf<BaseSource>(BiQuGeSource())
+val SourceList = mutableListOf<BaseSource>(BiQuGeSource.instance)
