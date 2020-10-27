@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.nick.lib_core.utils.base.BaseActivity
 import com.nick.lib_core.utils.logD
+import com.nick.lib_seek_book.BookManager
 import com.nick.lib_seek_book.SeekBook
 import com.nick.lib_seek_book.bean.Book
 import com.nick.readbook.R
@@ -41,9 +42,9 @@ class BookDetailsActivity : BaseActivity() {
             bookrackRecyclerView.layoutManager = LinearLayoutManager(getAct())
             adapter!!.onAttachedToRecyclerView(bookrackRecyclerView)
             adapter!!.setOnItemClickListener { a, view, position ->
+                BookManager.instance.currentBookrack = position
                 ReadBookActivity.start(
-                    getAct(),
-                    adapter!!.getItem(position)
+                    getAct()
                 )
             }
         }
@@ -57,6 +58,7 @@ class BookDetailsActivity : BaseActivity() {
                 logD("图片地址" + it.imgUrl)
                 Glide.with(getAct()).load(it.imgUrl).into(iv_img)
                 adapter!!.setList(it.bookrackList)
+                BookManager.instance.setBookrackList(it.bookrackList)
             })
         }
 

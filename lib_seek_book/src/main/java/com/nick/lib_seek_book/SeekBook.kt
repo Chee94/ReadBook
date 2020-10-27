@@ -4,6 +4,7 @@ import com.nick.lib_core.utils.logD
 import com.nick.lib_seek_book.bean.Book
 import com.nick.lib_seek_book.bean.BookDetail
 import com.nick.lib_seek_book.bean.Bookrack
+import com.nick.lib_seek_book.bean.BookrackDetail
 import com.nick.lib_seek_book.source.BaseSource
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -54,10 +55,10 @@ class SeekBook {
             .subscribe(callback)
     }
 
-    fun getBookrackContent(bookrack: Bookrack, callback: Consumer<String>) {
+    fun getBookrackContent(bookrack: Bookrack, callback: Consumer<BookrackDetail>) {
         Observable.just(bookrack)
             .map {
-                it.book.baseSource.fetchContent(doc(it.url).body())
+                BookrackDetail(it.name,it.book.baseSource.fetchContent(doc(it.url).body()))
             }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(callback)
