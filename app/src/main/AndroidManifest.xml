@@ -17,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReadBook"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.nick.lib_core.utils.glide.AGlideModule"
+            android:value="GlideModule" />
+
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

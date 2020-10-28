@@ -1,4 +1,4 @@
-package com.nick.lib_seek_book
+package com.nick.lib_seek_book.util
 
 import org.jsoup.Jsoup
 

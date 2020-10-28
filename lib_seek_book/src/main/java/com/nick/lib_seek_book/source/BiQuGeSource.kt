@@ -2,7 +2,7 @@ package com.nick.lib_seek_book.source
 
 import com.nick.lib_seek_book.bean.Book
 import com.nick.lib_seek_book.bean.BookDetail
-import com.nick.lib_seek_book.bean.Bookrack
+import com.nick.lib_seek_book.bean.Chapters
 import org.jsoup.nodes.Element
 import java.net.URLDecoder
 
@@ -62,9 +62,9 @@ class BiQuGeSource : BaseSource() {
     }
 
     override fun fetchBookDetail(book: Book, doc: Element): BookDetail {
-        val bookrackList = mutableListOf<Bookrack>()
+        val bookrackList = mutableListOf<Chapters>()
         for (item in doc.select("dd")) {
-            var bookrack = Bookrack(
+            var bookrack = Chapters(
                 book,
                 item.text(),
                 "${book.bookDetailUrl}/${item.select("a")[0].attr("href")}"

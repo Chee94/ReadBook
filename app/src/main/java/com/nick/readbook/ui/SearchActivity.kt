@@ -35,6 +35,7 @@ class SearchActivity : BaseActivity() {
                 bookAdapter!!.setList(it)
             })
         }
+        btn_back.setOnClickListener { finish() }
 
         bookAdapter?.let {
             bookRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -43,7 +44,7 @@ class SearchActivity : BaseActivity() {
             bookAdapter!!.setOnItemClickListener { adapter, view, position ->
                 BookDetailsActivity.start(
                     SearchActivity@ this,
-                    bookAdapter!!.getItem(position)
+                    bookAdapter!!.getItem(position),null,0
                 )
             }
         }

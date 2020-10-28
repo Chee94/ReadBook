@@ -38,7 +38,7 @@ class ReadBookActivity : BaseActivity() {
             scrollable.scrollTo(0, 0)
             tv_title.text="${it.name}"
             tv_content.text = Html.fromHtml(it.content)
-        })
+        },getAct())
     }
 
 }

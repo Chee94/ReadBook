@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply plugin:'kotlin-android-extensions'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -23,6 +25,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -30,6 +34,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    androidExtensions {
+        experimental = true
+    }
+
+
 }
 
 dependencies {
@@ -40,4 +50,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation project(path: ':lib_core')
     implementation 'org.jsoup:jsoup:1.10.3'
+
 }

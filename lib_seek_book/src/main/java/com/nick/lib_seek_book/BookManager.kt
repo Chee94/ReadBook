@@ -1,17 +1,25 @@
 package com.nick.lib_seek_book
 
-import com.nick.lib_seek_book.bean.Bookrack
-import com.nick.lib_seek_book.bean.BookrackDetail
+import androidx.appcompat.app.AppCompatActivity
+import com.nick.lib_core.utils.safe.MD5
+import com.nick.lib_seek_book.bean.BookDetail
+import com.nick.lib_seek_book.bean.BookDetailLocal
+import com.nick.lib_seek_book.bean.Chapters
+import com.nick.lib_seek_book.bean.ChaptersDetail
+import com.tencent.mmkv.MMKV
 import io.reactivex.rxjava3.functions.Consumer
 
 /**
  *  Nick in 2020/10/28 0:42
- *  Des:
+ *  Des: 管理当前阅读书本
  */
 class BookManager {
 
-    var bookrackList = mutableListOf<Bookrack>()
-    var currentBookrack = 0;
+    var bookrackList = mutableListOf<Chapters>()
+    var currentBookrack = 0;//当前阅读章节
+    var act: AppCompatActivity? = null
+    var bookKv = MMKV.mmkvWithID("book_bookshelf");
+    var bookDetail: BookDetail? = null
 
     companion object {
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -19,20 +27,45 @@ class BookManager {
         }
     }
 
-    fun setBookrackList(list: MutableList<Bookrack>): BookManager {
+    fun setBookrackList(bookDetail: BookDetail, act: AppCompatActivity): BookManager {
+        this.bookDetail = bookDetail
         this.bookrackList.clear()
-        this.bookrackList.addAll(list)
+        this.bookrackList.addAll(bookDetail.chaptersList)
+        this.act
         return this
     }
 
-    fun next(callback: Consumer<BookrackDetail>) {
+
+    fun next(callback: Consumer<ChaptersDetail>, act: AppCompatActivity) {
         bookrackList?.let {
-            SeekBook.instance.getBookrackContent(bookrackList[currentBookrack++], callback)
+            val chapters = bookrackList[currentBookrack++]
+            SeekBook.instance.getBookrackContent(chapters, act, callback)
+            update(chapters)
         }
     }
 
-    fun reset(): BookManager {
-        currentBookrack = 0
+    /**
+     * 更新进度
+     */
+    fun update(chapters: Chapters) {
+        val bookDetailLocal = BookDetailLocal(bookDetail!!, chapters, currentBookrack)
+        bookKv.encode(MD5.encode(chapters.book.bookDetailUrl), bookDetailLocal)
+    }
+
+    /**
+     * 添加到书架
+     */
+    fun addBookshelf(callbak: (Boolean) -> Int) {
+        if (bookrackList.size == 0) {
+            callbak(false)
+        } else {
+            update(bookrackList.get(0))
+            callbak(true)
+        }
+    }
+
+    fun lruPosition(position: Int): BookManager {
+        this.currentBookrack = position
         return this
     }
 

@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/view_top"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/title_height"
         android:background="@color/purple_700"
         android:orientation="horizontal">
 
@@ -60,8 +60,9 @@
             android:id="@+id/iv_img"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@color/purple_700"
-            android:scaleType="centerCrop" />
+            android:background="@color/theme_bg"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_default" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -116,13 +117,26 @@
             app:layout_constraintTop_toTopOf="@+id/tv_title" />
 
         <Button
+            android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="加入书架"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/iv_img"
             app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/btn_lruchapters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="#F08080"
+        android:padding="10dp"
+        android:text="最近阅读："
+        android:textColor="@color/white"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bookrackRecyclerView"

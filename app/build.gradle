@@ -5,6 +5,7 @@ plugins {
 
 apply plugin:'kotlin-android-extensions'
 
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -15,16 +16,21 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    
+
+
     androidExtensions {
         experimental = true
     }
 
     dataBinding {
         enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
     }
 
     buildTypes {

@@ -8,6 +8,7 @@ buildscript {
         google()
         maven { url 'https://jitpack.io' }
         jcenter()
+        mavenCentral()//添加的代码
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.0"
@@ -24,6 +25,7 @@ allprojects {
         google()
         maven { url 'https://jitpack.io' }
         jcenter()
+        mavenCentral()//添加的代码
     }
 }
 

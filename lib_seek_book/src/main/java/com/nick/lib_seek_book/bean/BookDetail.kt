@@ -1,11 +1,13 @@
 package com.nick.lib_seek_book.bean
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 /**
  *  Nick in 2020/10/27 22:34
  *  Des:
  */
 
-data class BookDetail(var book: Book, var introduce: String,var imgUrl:String, var bookrackList: MutableList<Bookrack>):
-    Serializable
+@Parcelize
+data class BookDetail(var book: Book, var introduce: String,var imgUrl:String, var chaptersList: MutableList<Chapters>):
+    Parcelable

@@ -1,11 +1,13 @@
 package com.nick.lib_seek_book
 
+import androidx.appcompat.app.AppCompatActivity
 import com.nick.lib_core.utils.logD
 import com.nick.lib_seek_book.bean.Book
 import com.nick.lib_seek_book.bean.BookDetail
-import com.nick.lib_seek_book.bean.Bookrack
-import com.nick.lib_seek_book.bean.BookrackDetail
+import com.nick.lib_seek_book.bean.Chapters
+import com.nick.lib_seek_book.bean.ChaptersDetail
 import com.nick.lib_seek_book.source.BaseSource
+import com.nick.lib_seek_book.util.doc
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
@@ -55,11 +57,14 @@ class SeekBook {
             .subscribe(callback)
     }
 
-    fun getBookrackContent(bookrack: Bookrack, callback: Consumer<BookrackDetail>) {
-        Observable.just(bookrack)
+    fun getBookrackContent(chapters: Chapters, act:AppCompatActivity, callback: Consumer<ChaptersDetail>) {
+        Observable
+            .just(chapters)
+//            .`as`(RxLife.`as`(this))
             .map {
-                BookrackDetail(it.name,it.book.baseSource.fetchContent(doc(it.url).body()))
-            }.subscribeOn(Schedulers.io())
+                ChaptersDetail(it.name,it.book.baseSource.fetchContent(doc(it.url).body()))
+            }
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(callback)
     }
