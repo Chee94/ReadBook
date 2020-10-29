@@ -35,10 +35,27 @@ class BookManager {
         return this
     }
 
+    fun current(callback: Consumer<ChaptersDetail>, act: AppCompatActivity) {
+        bookrackList?.let {
+            val chapters = bookrackList[currentBookrack]
+            SeekBook.instance.getBookrackContent(chapters, act, callback)
+            update(chapters)
+        }
+    }
 
+    //下一页
     fun next(callback: Consumer<ChaptersDetail>, act: AppCompatActivity) {
         bookrackList?.let {
-            val chapters = bookrackList[currentBookrack++]
+            val chapters = bookrackList[++currentBookrack]
+            SeekBook.instance.getBookrackContent(chapters, act, callback)
+            update(chapters)
+        }
+    }
+
+    //上一页
+    fun last(callback: Consumer<ChaptersDetail>, act: AppCompatActivity) {
+        bookrackList?.let {
+            val chapters = bookrackList[--currentBookrack]
             SeekBook.instance.getBookrackContent(chapters, act, callback)
             update(chapters)
         }
@@ -49,6 +66,7 @@ class BookManager {
      */
     fun update(chapters: Chapters) {
         val bookDetailLocal = BookDetailLocal(bookDetail!!, chapters, currentBookrack)
+        bookKv.remove(MD5.encode(chapters.book.bookDetailUrl))
         bookKv.encode(MD5.encode(chapters.book.bookDetailUrl), bookDetailLocal)
     }
 

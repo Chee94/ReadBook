@@ -6,7 +6,7 @@
     android:background="@color/theme_bg"
     android:orientation="vertical">
 
-    <ScrollView
+    <com.nick.readbook.ui.widget.ObservableScrollView
         android:id="@+id/scrollable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             android:padding="15dp"
             tools:text="这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容这一个内容" />
 
-    </ScrollView>
+    </com.nick.readbook.ui.widget.ObservableScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -29,6 +29,7 @@ class BookDetailsActivity : BaseActivity() {
 
     var book: Book? = null
     var adapter: BookrackAdapter? = null
+    var postion: Int? = null
 
     companion object {
         fun start(context: Context, book: Book, lruChapters: Chapters?, position: Int) {
@@ -44,6 +45,8 @@ class BookDetailsActivity : BaseActivity() {
 
     override fun init() {
         book = intent.getParcelableExtra(BOOK_KEY) as Book?
+
+        postion = intent.getIntExtra(LRU_POSITION_KEY, 0);
 
         adapter = BookrackAdapter();
 
@@ -68,7 +71,7 @@ class BookDetailsActivity : BaseActivity() {
                 logD("图片地址" + it.imgUrl)
                 Glide.with(getAct()).load(it.imgUrl).apply(glide_options).into(iv_img)
                 adapter!!.setList(it.chaptersList)
-                BookManager.instance.lruPosition(intent.getIntExtra(LRU_POSITION_KEY, 0))
+                BookManager.instance.lruPosition(postion!!)
                     .setBookrackList(it, getAct())
 
                 intent.getParcelableExtra<Chapters>(LRU_CHAPTERS_KEY).apply {
@@ -81,8 +84,13 @@ class BookDetailsActivity : BaseActivity() {
                     }
                 }
 
+                bookrackRecyclerView.scrollToPosition(postion!!)
             })
 
+        }
+
+        btn_lruchapters.setOnClickListener {
+            bookrackRecyclerView.scrollToPosition(postion!!)
         }
 
         btn_back.setOnClickListener { finish() }
